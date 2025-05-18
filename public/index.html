@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="../static/img/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Medicamentos</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+
+<body>
+
+    <div class="topo">
+        <button id="btnLogout">Sair</button>
+    </div>
+
+    <h1>Adicionar Medicamento</h1>
+
+    <form id="formMedicamento">
+        <label for="nome">Nome do Medicamento</label>
+        <input type="text" id="nome" name="nome" required autocomplete="off" />
+
+        <label for="horario">Horário</label>
+        <input type="time" id="horario" name="horario" required />
+
+        <label for="dosagem">Dosagem</label>
+        <input type="text" id="dosagem" name="dosagem" required autocomplete="off" />
+
+        <label for="observacao">Observações</label>
+        <textarea id="observacao" name="observacao" rows="3" placeholder="Opcional"></textarea>
+
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Medicamentos Cadastrados</h2>
+    <div id="listaMedicamentos" class="lista-medicamentos">
+        <p>Carregando...</p>
+    </div>
+
+    <script>
+        const lista = document.getElementById('listaMedicamentos');
+        const form = document.getElementById('formMedicamento');
+
+        async function carregarMedicamentos() {
+            try {
+                const res = await fetch('http://localhost:8083/api/listar_medicamentos.php', {
+                    credentials: 'include'
+                });
+
+                if (!res.ok) throw new Error('Erro ao carregar lista');
+                const dados = await res.json();
+
+                lista.innerHTML = '';
+                if (dados.length === 0) {
+                    lista.innerHTML = '<p>Nenhum medicamento cadastrado.</p>';
+                    return;
+                }
+
+                dados.forEach(med => {
+                    const card = document.createElement('div');
+                    card.className = 'card-medicamento';
+
+                    const titulo = document.createElement('h3');
+                    titulo.textContent = med.nome_medicamento;
+
+                    const horario = document.createElement('p');
+                    horario.innerHTML = `<strong>Horário:</strong> ${med.horario}`;
+
+                    const dosagem = document.createElement('p');
+                    dosagem.innerHTML = `<strong>Dosagem:</strong> ${med.dosagem}`;
+
+                    const observacao = document.createElement('p');
+                    observacao.innerHTML = `<strong>Obs.:</strong> ${med.observacao || 'Nenhuma'}`;
+
+                    const btnExcluir = document.createElement('button');
+                    btnExcluir.textContent = 'Excluir';
+                    btnExcluir.className = 'btn-excluir';
+
+                    btnExcluir.onclick = async () => {
+                        if (!confirm(`Deseja excluir "${med.nome_medicamento}"?`)) return;
+
+                        try {
+                            const res = await fetch(`http://localhost:8083/api/excluir_medicamento.php?id=${med.id_medicamento}`, {
+                                method: 'DELETE'
+                            });
+                            if (!res.ok) throw new Error('Erro ao excluir');
+                            alert('Medicamento excluído!');
+                            carregarMedicamentos();
+                        } catch (err) {
+                            alert('Erro ao excluir medicamento');
+                            console.error(err);
+                        }
+                    };
+
+                    card.appendChild(titulo);
+                    card.appendChild(horario);
+                    card.appendChild(dosagem);
+                    card.appendChild(observacao);
+                    card.appendChild(btnExcluir);
+                    lista.appendChild(card);
+                });
+            } catch (error) {
+                console.error(error);
+                lista.innerHTML = '<p>Erro ao carregar lista.</p>';
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const dados = {
+                nome: form.nome.value,
+                horario: form.horario.value,
+                dosagem: form.dosagem.value,
+                observacao: form.observacao.value
+            };
+
+            try {
+                const res = await fetch('http://localhost:8083/api/adicionar_medicamento.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(dados)
+                });
+
+                if (!res.ok) throw new Error('Erro ao adicionar medicamento');
+                alert('Medicamento adicionado!');
+                form.reset();
+                carregarMedicamentos();
+            } catch (err) {
+                alert('Erro ao adicionar medicamento');
+                console.error(err);
+            }
+        });
+
+        document.getElementById('btnLogout').addEventListener('click', async () => {
+            if (confirm('Deseja realmente sair?')) {
+                try {
+                    const res = await fetch('http://localhost:8083/api/logout.php', {
+                        method: 'POST',
+                        credentials: 'include'
+                    });
+                    if (res.ok) {
+                        window.location.href = 'login.html';
+                    } else {
+                        alert('Erro ao deslogar');
+                    }
+                } catch (e) {
+                    alert('Erro na solicitação de logout');
+                }
+            }
+        });
+
+        carregarMedicamentos();
+    </script>
+</body>
+
+</html>

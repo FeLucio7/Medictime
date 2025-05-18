@@ -1,0 +1,180 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+/* Formulário */
+form {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+    margin-bottom: 2rem;
+    transition: box-shadow 0.3s ease;
+}
+
+form:hover {
+    box-shadow: 0 6px 15px rgb(0 0 0 / 0.15);
+}
+
+label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: #34495e;
+}
+
+input[type="text"],
+input[type="time"],
+textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.3rem;
+    border: 1.8px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+}
+
+input[type="text"]:focus,
+input[type="time"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #27ae60;
+    box-shadow: 0 0 6px #27ae60aa;
+}
+
+button[type="submit"] {
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.6rem;
+    width: 100%;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: white;
+    background-color: #27ae60;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    box-shadow: 0 4px 8px #27ae60bb;
+}
+
+button[type="submit"]:hover {
+    background-color: #219150;
+    box-shadow: 0 6px 15px #219150cc;
+}
+
+/* Lista de medicamentos como cards */
+.lista-medicamentos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.card-medicamento {
+    background: white;
+    border-left: 6px solid #27ae60;
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.07);
+    font-weight: 500;
+    color: #2c3e50;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.card-medicamento h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #2c3e50;
+}
+
+.card-medicamento p {
+    margin: 0;
+    color: #555;
+}
+
+.card-medicamento:hover {
+    background-color: #e3f3e7;
+}
+
+.btn-excluir {
+    align-self: flex-end;
+    margin-top: 0.4rem;
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 0.4rem 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-excluir:hover {
+    background-color: #c0392b;
+}
+
+@media (max-width: 500px) {
+    body {
+        margin: 1rem;
+    }
+
+    form {
+        padding: 1rem;
+    }
+
+    button[type="submit"] {
+        font-size: 1rem;
+    }
+}
+
+.topo {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+#btnLogout {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#btnLogout:hover {
+    background-color: #cc0000;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="time"],
+textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-top: 0.3rem;
+    border: 1.8px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+    box-sizing: border-box;
+}

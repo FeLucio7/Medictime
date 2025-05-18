@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mariadb_novo:
+    image: mariadb:latest
+    container_name: mariadb_novo
+    environment:
+      MYSQL_ROOT_PASSWORD: rootSenhaForte
+      MYSQL_DATABASE: novobanco
+      MYSQL_USER: novousuario
+      MYSQL_PASSWORD: senhaSegura123
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mariadb_novo_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:

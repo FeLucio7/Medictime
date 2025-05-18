@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Medictime</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../static/img/favicon.png" />
+
+    <!-- Link CSS externo -->
+    <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+
+<body>
+    <h1>Login</h1>
+
+    <form id="formLogin" action="../api/login.php" method="POST" autocomplete="off">
+        <label for="usuario">Usuário</label>
+        <input type="text" id="usuario" name="usuario" required autofocus />
+
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" required />
+
+        <button type="submit">Entrar</button>
+
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            Não tem conta?
+            <a href="cadastro.html" style="color: #27ae60; text-decoration: none;">Cadastre-se aqui</a>
+        </p>
+    </form>
+</body>
+
+</html>

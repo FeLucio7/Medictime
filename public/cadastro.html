@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - MEDICTIME</title>
+    <link rel="stylesheet" href="../static/css/cadastro.css">
+    <link rel="shortcut icon" href="../static/img/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="login-container">
+        <h1>MEDICTIME</h1>
+        <h2>Cadastro de Novo Usuário</h2>
+
+        <form id="cadastroForm">
+            <input type="text" name="nome" placeholder="Nome completo" required>
+            <input type="date" name="data" placeholder="Data de nascimento" required>
+            <input type="tel" name="celular" placeholder="Número de celular" required>
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="text" name="usuario" placeholder="Usuário" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <button class="btn" type="submit">Cadastrar</button>
+        </form>
+
+        <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cadastroForm = document.getElementById('cadastroForm');
+
+            cadastroForm.addEventListener('submit', async (event) => {
+                event.preventDefault(); // Impede o envio padrão do formulário
+
+                // Cria um objeto com os dados do formulário
+                const formData = new FormData(cadastroForm);
+                const userData = {
+                    nome: formData.get('nome'),
+                    data_nascimento: formData.get('data'),
+                    celular: formData.get('celular'),
+                    email: formData.get('email'),
+                    usuario: formData.get('usuario'),
+                    senha: formData.get('senha')
+                };
+
+                try {
+                    // Envia os dados via POST para a API de cadastro
+                    const response = await fetch('http://localhost:8083/api/cadastro.php', {  // Altere para a URL do seu backend
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(userData)  // Envia os dados como JSON
+                    });
+
+                    const responseData = await response.json();
+
+                    if (response.ok) {
+                        // Sucesso no cadastro
+                        alert('Cadastro realizado com sucesso!');
+                        window.location.href = 'login.html';  // Redireciona para o login
+                    } else {
+                        // Erro no cadastro (usuario duplicado, etc)
+                        alert(responseData.message || 'Falha ao cadastrar. Tente novamente.');
+                    }
+
+                } catch (error) {
+                    console.log('Erro de rede:', error);
+                    console.error('Erro de rede:', error);
+                    alert('Erro de rede ao tentar cadastrar.');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
